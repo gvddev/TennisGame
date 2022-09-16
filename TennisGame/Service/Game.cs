@@ -4,8 +4,9 @@ using System.Linq;
 using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
+using TennisGame;
 
-namespace TennisGame
+namespace TennisGame.Model
 {
     internal class Game : IGame
     {
@@ -63,14 +64,14 @@ namespace TennisGame
 
         private void assignPoint(double force1, double force2, double misforce)
         {
-            if ((misforce > 0 && force1 <= 9) || (misforce < 0 && force2 > 9))
+            if (misforce > 0 && force1 <= 9 || misforce < 0 && force2 > 9)
             {
                 if (_player2.Score == TennisScore.Advantage)
                     _player2.Score--;
                 else
                     _player1.Score++;
             }
-            if ((misforce < 0 && force2 <= 9) || (misforce > 0 && force1 > 9))
+            if (misforce < 0 && force2 <= 9 || misforce > 0 && force1 > 9)
             {
 
                 if (_player1.Score == TennisScore.Advantage)
@@ -85,7 +86,7 @@ namespace TennisGame
             int goodLuck = new Random().Next(1, 10);
             int power = new Random().Next(1, 10);
             int overall = player.Level + player.Status + goodLuck + power;
-            return overall/4;
+            return overall / 4;
         }
     }
 }

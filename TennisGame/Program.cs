@@ -4,6 +4,8 @@
 using TennisGame;
 using System.Threading;
 using System.Runtime.CompilerServices;
+using TennisGame;
+using TennisGame.Model;
 
 string result = "";
 string name;
