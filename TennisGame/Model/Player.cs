@@ -16,7 +16,7 @@ namespace TennisGame
         private string _name;
         private string _surname;
         private int _level;
-        private int _status;
+        private int _fitness;
         private TennisScore _score;
 
         public Player(string name, string surname, int level)
@@ -24,14 +24,14 @@ namespace TennisGame
             Name = name;
             Surname = surname;
             Level = level;
-            Status = new Random().Next(1, 10);
+            Fitness = new Random().Next(5, 10);
             Score = TennisScore.Love;
         }
 
         public string Name { get => _name; internal set => _name = value; }
         public string Surname { get => _surname; internal set => _surname = value; }
         public int Level { get => _level; internal set => _level = value;}
-        public int Status { get => _status; internal set => _status = value; }
+        public int Fitness { get => _fitness; internal set => _fitness = value; }
         public TennisScore Score { get => _score; set => _score = value; }
     }
 }

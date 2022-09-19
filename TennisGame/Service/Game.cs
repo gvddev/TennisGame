@@ -108,9 +108,13 @@ namespace TennisGame.Model
         private double Forces(IPlayer player)
         {
             int goodLuck = new Random().Next(1, 10);
-            int power = new Random().Next(1, 10);
-            int overall = player.Level + player.Status + goodLuck + power;
-            return overall / 4;
+            int status = new Random().Next(1, 10);
+            // vase on status
+            int focus = new Random().Next(status, 10);
+            // base on fitness
+            int power = new Random().Next(player.Fitness, 10);
+            int overall = player.Level + player.Fitness + status + focus + goodLuck + power;
+            return overall / 6;
         }
     }
 }

@@ -14,7 +14,7 @@ namespace TennisGame
         public string Name { get; }
         public string Surname { get; }
         public int Level { get; }
-        public int Status { get; }
+        public int Fitness { get; }
         public TennisScore Score { get; set; }
     }
 }
