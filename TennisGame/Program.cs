@@ -65,13 +65,13 @@ while(true)
 
         // set simulation game
         IGame game = new Game(player1, player2);
-        //Thread.Sleep(new Random().Next(2000, 10000));
+        Thread.Sleep(new Random().Next(2000, 10000));
 
         // play game
         while (game.PlayGame(out result))
         {
             Console.WriteLine(result);
-            //Thread.Sleep(new Random().Next(2000, 10000));
+            Thread.Sleep(new Random().Next(2000, 10000));
         }
         Console.WriteLine();
         Console.WriteLine(result);
