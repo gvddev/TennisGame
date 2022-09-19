@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 using System.Linq;
 using System.Reflection.Metadata.Ecma335;
 using System.Text;
@@ -24,63 +25,85 @@ namespace TennisGame.Model
 
         public bool PlayGame(out string result)
         {
-            double forceP1 = Forces(_player1);
-            double forceP2 = Forces(_player2);
-            double misForce = forceP1 - forceP2;
-            if (misForce >= -0.5 && misForce <= 0.5)
+            // assign point, return if it not assigned
+            if(assignPoint())
             {
-                result = $"#{_point}\t\tplaying . . .";
-                return true;
-            };
-
-            assignPoint(forceP1, forceP2, misForce);
-
-            int misScore = _player1.Score - _player2.Score;
-            if (_player1.Score == TennisScore.Forty && _player2.Score == TennisScore.Forty)
-            {
-                _player1.Score++;
-                _player2.Score++;
+                // check status game, return true if game continue else false if game end
+                if (!checkGameScore())
+                {
+                    // end game
+                    result = _player1.Score > _player2.Score ?
+                        $"#{_point}\t\tPlayer {_player1.Name} {_player1.Surname} wins" :
+                        $"#{_point}\t\tPlayer {_player2.Name} {_player2.Surname} wins";
+                    return false;
+                }
+                
+                // score game
                 result = $"#{_point}\t\t{_player1.Score.ToString()} - {_player2.Score.ToString()}";
                 _point++;
                 return true;
             }
-            if (_player1.Score > TennisScore.Forty || _player2.Score > TennisScore.Forty)
-            {
-                if (misScore > 1)
-                {
-                    result = $"#{_point}\t\tPlayer {_player1.Name} {_player1.Surname} wins";
-                    return false;
-                }
-                if (misScore < -1)
-                {
-                    result = $"#{_point}\t\tPlayer {_player2.Name} {_player2.Surname} wins";
-                    return false;
-                }
-            }
-            result = $"#{_point}\t\t{_player1.Score.ToString()} - {_player2.Score.ToString()}";
-            _point++;
+
+            // playing point
+            result = $"#{_point}\t\tplaying . . .";
             return true;
         }
 
-        private void assignPoint(double force1, double force2, double misforce)
+        /// <summary>
+        ///     Assign Point
+        /// </summary>
+        /// <returns>true if point assigned; false id point not assigned</returns>
+        private bool assignPoint()
         {
-            if (misforce > 0 && force1 <= 9 || misforce < 0 && force2 > 9)
+            // set force and gap between forceP1 and forceP2
+            double forceP1 = Forces(_player1);
+            double forceP2 = Forces(_player2);
+            double misForce = forceP1 - forceP2;
+            if (misForce > 0.5)
             {
-                if (_player2.Score == TennisScore.Advantage)
-                    _player2.Score--;
-                else
-                    _player1.Score++;
+                _player1.Score++;
+                return true;
             }
-            if (misforce < 0 && force2 <= 9 || misforce > 0 && force1 > 9)
+            if (misForce < -0.5)
             {
-
-                if (_player1.Score == TennisScore.Advantage)
-                    _player1.Score--;
-                else
-                    _player2.Score++;
+                _player2.Score++;
+                return true;
             }
+            return false;
         }
 
+        /// <summary>
+        ///     Check Game Score
+        /// </summary>
+        /// <returns>true if game is playing; false id game is end</returns>
+        private bool checkGameScore()
+        {
+            // set misscore
+            int misScore = Math.Abs(_player1.Score - _player2.Score);
+
+            // check deuce
+            if (_player1.Score == _player2.Score && _player1.Score == TennisScore.Forty)
+            {
+                _player1.Score++;
+                _player2.Score++;
+                return true;
+            }
+
+            // check win
+            if ((_player1.Score > TennisScore.Forty || _player2.Score > TennisScore.Forty) && misScore > 1)
+            {
+                return false;
+            }
+
+            // anyother score
+            return true;
+        }
+
+        /// <summary>
+        ///     Forces: Randomic assign force
+        /// </summary>
+        /// <param name="player">under assign force</param>
+        /// <returns></returns>
         private double Forces(IPlayer player)
         {
             int goodLuck = new Random().Next(1, 10);
