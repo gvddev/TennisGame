@@ -59,11 +59,13 @@ namespace TennisGame.Model
             double forceP1 = Forces(_player1);
             double forceP2 = Forces(_player2);
             double misForce = forceP1 - forceP2;
+            // assign point player1, if advantage player2 return deuce
             if (misForce > 0.5)
             {
                 _player1.Score++;
                 return true;
             }
+            // assign point player2, if advantage player1 return deuce
             if (misForce < -0.5)
             {
                 _player2.Score++;
@@ -82,10 +84,9 @@ namespace TennisGame.Model
             int misScore = Math.Abs(_player1.Score - _player2.Score);
 
             // check deuce
-            if (_player1.Score == _player2.Score && _player1.Score == TennisScore.Forty)
+            if (_player1.Score == _player2.Score && _player1.Score >= TennisScore.Forty)
             {
-                _player1.Score++;
-                _player2.Score++;
+                _player1.Score = _player2.Score = TennisScore.Deuce;
                 return true;
             }
 
