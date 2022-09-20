@@ -12,9 +12,12 @@ namespace TennisGame
     internal interface IGame
     {
         /// <summary>
-        ///     Play Tennis Game
+        ///     Play Tennis Game Simulator: 
+        ///     random point assignment based on 6 player characteristics
+        ///     'level' input user, 'fitness' indipendent random, 'goodluck' ind. random, 'status' ind. random,
+        ///     'focus' random base on 'status', 'power' random base on 'fitness'
         /// </summary>
-        /// <returns>Status Game: true or false</returns>
+        /// <returns>Status Game: playing if true; end play if false</returns>
         bool PlayGame(out string result);
     }
 }

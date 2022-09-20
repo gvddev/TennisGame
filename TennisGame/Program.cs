@@ -2,9 +2,6 @@
 
 // vars declair
 using TennisGame;
-using System.Threading;
-using System.Runtime.CompilerServices;
-using TennisGame;
 using TennisGame.Model;
 
 string result = "";
@@ -14,7 +11,27 @@ string parse;
 int level;
 bool samePlayer;
 
-while(true)
+Func<int, IPlayer> CreatePlayer = (no) =>
+{
+    Console.WriteLine($"\tPlayer{no.ToString()}");
+    Console.Write("Name: ");
+    name = Console.ReadLine();
+    Console.Write("SurName: ");
+    surname = Console.ReadLine();
+    Console.Write("Level (1-10): ");
+    parse = Console.ReadLine();
+    while (!Int32.TryParse(parse, out level) || !(level >= 1 && level <= 10))
+    {
+        Console.WriteLine("Not a valid number, try again.");
+        Console.Write("Level (1-10): ");
+        parse = Console.ReadLine();
+    }
+    Console.WriteLine();
+    IPlayer player = new Player(name, surname, level);
+    return player;
+};
+
+while (true)
 {
     Console.Clear();
     samePlayer = true;
@@ -22,37 +39,10 @@ while(true)
     Console.WriteLine("\tTENNIS GAME SIMULATOR\n");
 
     // insert player 1
-    Console.WriteLine("\tPlayer1");
-    Console.Write("Name: ");
-    name = Console.ReadLine();
-    Console.Write("SurName: ");
-    surname = Console.ReadLine();
-    Console.Write("Level (1-10): ");
-    parse = Console.ReadLine();
-    while (!Int32.TryParse(parse, out level) || !(level >= 1 && level <= 10))
-    {
-        Console.WriteLine("Not a valid number, try again.");
-        Console.Write("Level (1-10): ");
-        parse = Console.ReadLine();
-    }
-    IPlayer player1 = new Player(name, surname, level);
+    IPlayer player1 = CreatePlayer(1);
 
     // insert player 2
-    Console.WriteLine();
-    Console.WriteLine("\tPlayer2");
-    Console.Write("Name: ");
-    name = Console.ReadLine();
-    Console.Write("SurName: ");
-    surname = Console.ReadLine();
-    Console.Write("Level (1-10): ");
-    parse = Console.ReadLine();
-    while (!Int32.TryParse(parse, out level) || !(level >= 1 && level <= 10))
-    {
-        Console.WriteLine("Not a valid number, try again.");
-        Console.Write("Level (1-10): ");
-        parse = Console.ReadLine();
-    }
-    IPlayer player2 = new Player(name, surname, level);
+    IPlayer player2 = CreatePlayer(2);
 
     while (samePlayer)
     {
@@ -65,13 +55,13 @@ while(true)
 
         // set simulation game
         IGame game = new Game(player1, player2);
-        //Thread.Sleep(new Random().Next(2000, 10000));
+        Thread.Sleep(new Random().Next(2000, 10000));
 
         // play game
         while (game.PlayGame(out result))
         {
             Console.WriteLine(result);
-           // Thread.Sleep(new Random().Next(2000, 10000));
+            Thread.Sleep(new Random().Next(2000, 10000));
         }
         Console.WriteLine();
         Console.WriteLine(result);

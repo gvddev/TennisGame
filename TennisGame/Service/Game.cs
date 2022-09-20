@@ -26,10 +26,10 @@ namespace TennisGame.Model
         public bool PlayGame(out string result)
         {
             // assign point, return if it not assigned
-            if(assignPoint())
+            if(AssignPoint())
             {
                 // check status game, return true if game continue else false if game end
-                if (!checkGameScore())
+                if (!CheckGameScore())
                 {
                     // end game
                     result = _player1.Score > _player2.Score ?
@@ -49,11 +49,7 @@ namespace TennisGame.Model
             return true;
         }
 
-        /// <summary>
-        ///     Assign Point
-        /// </summary>
-        /// <returns>true if point assigned; false id point not assigned</returns>
-        private bool assignPoint()
+        private bool AssignPoint()
         {
             // set force and gap between forceP1 and forceP2
             double forceP1 = Forces(_player1);
@@ -74,11 +70,7 @@ namespace TennisGame.Model
             return false;
         }
 
-        /// <summary>
-        ///     Check Game Score
-        /// </summary>
-        /// <returns>true if game is playing; false id game is end</returns>
-        private bool checkGameScore()
+        private bool CheckGameScore()
         {
             // set misscore
             int misScore = Math.Abs(_player1.Score - _player2.Score);
@@ -100,16 +92,11 @@ namespace TennisGame.Model
             return true;
         }
 
-        /// <summary>
-        ///     Forces: Randomic assign force
-        /// </summary>
-        /// <param name="player">under assign force</param>
-        /// <returns></returns>
         private double Forces(IPlayer player)
         {
             int goodLuck = new Random().Next(1, 10);
             int status = new Random().Next(1, 10);
-            // vase on status
+            // base on status
             int focus = new Random().Next(status, 10);
             // base on fitness
             int power = new Random().Next(player.Fitness, 10);
