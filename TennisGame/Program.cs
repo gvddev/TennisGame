@@ -13,8 +13,9 @@ bool samePlayer;
 
 Func<int, IPlayer> CreatePlayer = (no) =>
 {
-    Console.WriteLine($"\tPlayer{no.ToString()}");
-    Console.Write("Name: ");
+    Console.Write(@$"           Player{no}
+Name: "
+    );
     name = Console.ReadLine();
     Console.Write("SurName: ");
     surname = Console.ReadLine();
@@ -22,8 +23,8 @@ Func<int, IPlayer> CreatePlayer = (no) =>
     parse = Console.ReadLine();
     while (!Int32.TryParse(parse, out level) || !(level >= 1 && level <= 10))
     {
-        Console.WriteLine("Not a valid number, try again.");
-        Console.Write("Level (1-10): ");
+        Console.Write(@"Not a valid number, try again.
+Level (1-10): ");
         parse = Console.ReadLine();
     }
     Console.WriteLine();
@@ -48,10 +49,9 @@ while (true)
     {
         samePlayer = false;
 
-        Console.WriteLine();
-        Console.WriteLine("\t\tPlay Game");
-        Console.WriteLine();
-        Console.WriteLine($"Player1: {player1.Name} {player1.Surname} \tPlayer2: {player2.Name} {player2.Surname}");
+        Console.WriteLine(@$"           Play Game
+        
+Player1: {player1.Name} {player1.Surname}   Player2: {player2.Name} {player2.Surname}");
 
         // set simulation game
         IGame game = new Game(player1, player2);
